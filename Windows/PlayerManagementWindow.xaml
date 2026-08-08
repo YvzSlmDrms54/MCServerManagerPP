@@ -1,0 +1,50 @@
+<Window x:Class="MCServerManagerPP.PlayerManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Oyuncu Yönetimi" Height="550" Width="450"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F0F0F0">
+    <TabControl x:Name="TabsRoot" Margin="10">
+
+        <TabItem x:Name="TabOp" Header="OP">
+            <StackPanel Margin="10">
+                <TextBox x:Name="TxtOpName" Margin="0,0,0,8"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Button x:Name="BtnOpAdd" Width="100" Click="BtnOpAdd_Click"/>
+                    <Button x:Name="BtnOpRemove" Width="100" Margin="8,0,0,0" Click="BtnOpRemove_Click"/>
+                    <Button x:Name="BtnOpRefresh" Width="90" Margin="8,0,0,0" Click="BtnOpRefresh_Click"/>
+                </StackPanel>
+                <TextBlock x:Name="LblOpCurrent" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ListBox x:Name="OpListBox" Height="300"/>
+            </StackPanel>
+        </TabItem>
+
+        <TabItem x:Name="TabWhitelist" Header="Whitelist">
+            <StackPanel Margin="10">
+                <TextBox x:Name="TxtWhitelistName" Margin="0,0,0,8"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Button x:Name="BtnWhitelistAdd" Width="100" Click="BtnWhitelistAdd_Click"/>
+                    <Button x:Name="BtnWhitelistRemove" Width="100" Margin="8,0,0,0" Click="BtnWhitelistRemove_Click"/>
+                    <Button x:Name="BtnWhitelistRefresh" Width="90" Margin="8,0,0,0" Click="BtnWhitelistRefresh_Click"/>
+                </StackPanel>
+                <TextBlock x:Name="LblWhitelistCurrent" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ListBox x:Name="WhitelistListBox" Height="300"/>
+            </StackPanel>
+        </TabItem>
+
+        <TabItem x:Name="TabBan" Header="Ban">
+            <StackPanel Margin="10">
+                <TextBox x:Name="TxtBanName" Margin="0,0,0,8"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Button x:Name="BtnBanAdd" Width="100" Click="BtnBanAdd_Click"/>
+                    <Button x:Name="BtnBanRemove" Width="100" Margin="8,0,0,0" Click="BtnBanRemove_Click"/>
+                    <Button x:Name="BtnBanRefresh" Width="90" Margin="8,0,0,0" Click="BtnBanRefresh_Click"/>
+                </StackPanel>
+                <TextBlock x:Name="LblBanCurrent" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ListBox x:Name="BanListBox" Height="300"/>
+            </StackPanel>
+        </TabItem>
+
+    </TabControl>
+</Window>

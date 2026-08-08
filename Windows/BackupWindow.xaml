@@ -1,0 +1,27 @@
+<Window x:Class="MCServerManagerPP.BackupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Yedekleme" Height="500" Width="450"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F0F0F0">
+    <StackPanel Margin="15">
+
+        <TextBlock x:Name="LblAutoBackupHour" Text="Otomatik Yedekleme Saati" FontWeight="Bold" Margin="0,0,0,8"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <ComboBox x:Name="ComboBackupHour" Width="55"/>
+            <TextBlock Text=":" VerticalAlignment="Center" Margin="4,0,4,0"/>
+            <ComboBox x:Name="ComboBackupMinute" Width="55"/>
+            <CheckBox x:Name="ChkBackupEnabled" VerticalAlignment="Center" Margin="15,0,0,0" IsChecked="True"/>
+        </StackPanel>
+
+        <Button x:Name="BtnApply" Height="30" Click="BtnApply_Click" Margin="0,0,0,10"/>
+        <Button x:Name="BtnBackupNow" Height="30" Click="BtnBackupNow_Click" Margin="0,0,0,15"/>
+
+        <TextBlock x:Name="LastBackupText" FontStyle="Italic" Margin="0,0,0,15"/>
+
+        <TextBlock x:Name="LblBackupHistory" Text="Yedek Geçmişi" FontWeight="Bold" Margin="0,0,0,8"/>
+        <ListBox x:Name="BackupListBox" Height="220"/>
+
+    </StackPanel>
+</Window>

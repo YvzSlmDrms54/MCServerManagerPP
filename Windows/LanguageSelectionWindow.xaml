@@ -1,0 +1,16 @@
+<Window x:Class="MCServerManagerPP.LanguageSelectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Select Language / Dil Seçin" Height="180" Width="320"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <StackPanel Margin="20" VerticalAlignment="Center">
+        <TextBlock Text="Please select a language / Lütfen bir dil seçin" 
+                   TextWrapping="Wrap" Margin="0,0,0,15" HorizontalAlignment="Center"/>
+        <ComboBox x:Name="ComboLanguage" HorizontalAlignment="Center" Width="150">
+            <ComboBoxItem Content="Türkçe"/>
+            <ComboBoxItem Content="English"/>
+        </ComboBox>
+        <Button Content="OK / Tamam" Height="30" Margin="0,15,0,0" Click="BtnConfirm_Click"/>
+    </StackPanel>
+</Window>

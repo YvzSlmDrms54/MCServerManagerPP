@@ -1,0 +1,83 @@
+﻿<Window x:Class="MCServerManagerPP.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MCServerManager++" Height="600" Width="950" PreviewKeyDown="Window_PreviewKeyDown">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" VerticalContentAlignment="Center" Height="28">
+            <MenuItem x:Name="MenuServer">
+                <MenuItem x:Name="MenuStart" Click="BtnStart_Click"/>
+                <MenuItem x:Name="MenuStop" Click="BtnStop_Click"/>
+                <MenuItem x:Name="MenuRestart" Click="BtnRestart_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="MenuTools">
+                <MenuItem x:Name="MenuProperties" Click="BtnProperties_Click"/>
+                <MenuItem x:Name="MenuBackup" Click="BtnBackup_Click"/>
+                <MenuItem x:Name="MenuWebhooks" Click="BtnWebhooks_Click"/>
+                <MenuItem x:Name="MenuPlayers" Click="BtnPlayerMgmt_Click"/>
+                <MenuItem x:Name="MenuMaintenance" Click="BtnMaintenance_Click"/>
+                <MenuItem x:Name="MenuScheduled" Click="BtnScheduled_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="MenuHelp">
+                <MenuItem x:Name="MenuAbout" Click="BtnAbout_Click"/>
+                <MenuItem x:Name="MenuKeybinds" Click="MenuKeybinds_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="180"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="0,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+                    <Button x:Name="BtnStart" Width="80" Click="BtnStart_Click"/>
+                    <Button x:Name="BtnStop" Width="80" Margin="5,0,0,0" Click="BtnStop_Click"/>
+                    <Button x:Name="BtnRestart" Width="80" Margin="5,0,0,0" Click="BtnRestart_Click"/>
+                    <Button x:Name="BtnFastBackup" Width="110" Margin="5,0,0,0" Click="BtnFastBackup_Click"/>
+                    <TextBlock x:Name="StatusText" VerticalAlignment="Center" Margin="15,0,0,0"/>
+                </StackPanel>
+
+                <StackPanel x:Name="SearchBar" Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,5" Visibility="Collapsed">
+                    <TextBox x:Name="TxtSearch" Width="200" KeyDown="TxtSearch_KeyDown"/>
+                    <Button x:Name="BtnSearchPrev" Width="70" Margin="5,0,0,0" Click="BtnSearchPrev_Click"/>
+                    <Button x:Name="BtnSearchNext" Width="70" Margin="5,0,0,0" Click="BtnSearchNext_Click"/>
+                    <TextBlock x:Name="SearchStatusText" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="Gray"/>
+                </StackPanel>
+
+                <TextBox x:Name="ConsoleOutput" Grid.Row="2" IsReadOnly="True" 
+                          VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"
+                          FontFamily="Consolas" Background="Black" Foreground="LightGreen"/>
+
+                <Grid Grid.Row="3" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="CommandInput" Grid.Column="0" KeyDown="CommandInput_KeyDown" Margin="0,0,5,0"/>
+                    <Button x:Name="BtnSend" Grid.Column="1" Width="80" Click="BtnSend_Click"/>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <TextBlock x:Name="ServerTypeText" HorizontalAlignment="Right" 
+                               Foreground="Gray" FontSize="11" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="PlayersHeader" FontWeight="Bold" VerticalAlignment="Bottom"/>
+                </Grid>
+                <ListBox x:Name="PlayerList" Grid.Row="1"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
