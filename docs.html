@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docs — MCServerManager++</title>
+<meta name="description" content="Documentation for MCServerManager++: setup, features, and troubleshooting.">
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><span class="brand-dot"></span>MCServerManager++</a>
+    <div class="nav-links">
+      <a href="index.html">Overview</a>
+      <a href="docs.html" class="active">Docs</a>
+      <a href="download.html">Download</a>
+      <a href="https://github.com/MyBetaSoft/MCServerManagerPP" class="nav-cta">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Documentation</div>
+    <h1>Everything the app does, in plain terms.</h1>
+    <p class="lead">A working reference for setup and day-to-day use — not a spec sheet.</p>
+  </div>
+</header>
+
+<div class="wrap docs-layout">
+  <nav class="docs-nav">
+    <div class="docs-nav-group">Get started</div>
+    <a href="#setup">First launch</a>
+    <a href="#server-detection">Server detection</a>
+    <a href="#language">Language</a>
+
+    <div class="docs-nav-group">Running a server</div>
+    <a href="#console">Console &amp; commands</a>
+    <a href="#properties">Server properties</a>
+    <a href="#players">Player management</a>
+    <a href="#maintenance">Maintenance mode</a>
+
+    <div class="docs-nav-group">Automation</div>
+    <a href="#backups">Backups</a>
+    <a href="#scheduled">Scheduled tasks</a>
+    <a href="#webhooks">Discord webhooks</a>
+    <a href="#crash">Crash detection</a>
+
+    <div class="docs-nav-group">Reference</div>
+    <a href="#tray">System tray</a>
+    <a href="#shortcuts">Keyboard shortcuts</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+  </nav>
+
+  <div class="docs-content">
+
+    <h2 id="setup">First launch</h2>
+    <p>On first run, MCServerManager++ asks which language to use — Turkish or English — and creates a <code>server</code> folder next to the app. That folder is where everything lives: the Minecraft server itself, your world, backups, and the app's own settings.</p>
+    <div class="callout"><strong>Nothing is downloaded automatically yet.</strong> Place your existing server files — the server <code>.jar</code> and an accepted <code>eula.txt</code> — into the <code>server</code> folder before pressing Start. If the folder is empty, the app creates a short readme telling you what to add.</div>
+
+    <h2 id="server-detection">Server detection</h2>
+    <p>MCServerManager++ looks at what's already in the <code>server</code> folder and works out what kind of server you're running — you don't have to tell it.</p>
+    <ul>
+      <li>No <code>versions</code> folder → server isn't installed yet</li>
+      <li>A <code>plugins</code> folder → PaperMC</li>
+      <li>A <code>mods</code> folder → Fabric or Forge, checked further via the <code>libraries</code> folder and mod filenames</li>
+      <li>Neither → Vanilla</li>
+    </ul>
+    <p>The result shows in the top-right corner of the main window at all times.</p>
+
+    <h2 id="language">Language</h2>
+    <p>The interface is fully bilingual — Turkish and English, chosen once on first launch and stored in the app's config. Menus, buttons, and every automated message (including Discord notifications) follow the selected language.</p>
+
+    <h2 id="console">Console &amp; commands</h2>
+    <p>The main window streams server output live. Type into the command box at the bottom and press <span class="kbd">Enter</span> or click <strong>Send</strong> to run any vanilla server command, exactly as you would in the server's own terminal.</p>
+    <h3>Searching the console</h3>
+    <p>Press <span class="kbd">Ctrl</span> + <span class="kbd">F</span> to open a search bar over the console. Enter jumps to the next match; <span class="kbd">Esc</span> or <span class="kbd">Ctrl</span> + <span class="kbd">F</span> again closes it.</p>
+
+    <h2 id="properties">Server properties</h2>
+    <p>Open <strong>Tools → Properties</strong> for a graphical editor over <code>server.properties</code>, organized into four tabs: General, Game Rules, Performance, and Security. Each control shows the underlying property key beneath it, so nothing is hidden from you — it's a faster way to reach the same file, not a different one.</p>
+
+    <h2 id="players">Player management</h2>
+    <p>Open <strong>Tools → Players</strong> for three tabs — OP, Whitelist, and Ban — each with an add/remove field and a live list read from the server's own <code>ops.json</code>, <code>whitelist.json</code>, and <code>banned-players.json</code>. These actions require the server to be running, since they're sent as real server commands.</p>
+
+    <h2 id="maintenance">Maintenance mode</h2>
+    <p>Open <strong>Tools → Maintenance Mode</strong> to take the server offline for players without shutting it down. Turning it on:</p>
+    <ul>
+      <li>Saves the current MOTD and whitelist state so they can be restored later</li>
+      <li>Sets a maintenance MOTD and enables the whitelist</li>
+      <li>Kicks any connected player who isn't an operator</li>
+    </ul>
+    <p>Turning it off restores the saved MOTD and whitelist state exactly as they were.</p>
+
+    <h2 id="backups">Backups</h2>
+    <p>Open <strong>Tools → Backup</strong> to zip the <code>world</code> folder on demand with <strong>Backup Now</strong>, or set a daily time and toggle automatic backups on. Every automatic backup runs <code>save-all</code> first and waits a moment before zipping, to avoid capturing a half-written world. A backup is also taken automatically whenever the server closes — planned or not — and the window keeps a running history of every backup made.</p>
+    <p>For a one-off backup without opening the window, use the <strong>Fast Backup</strong> button on the main screen.</p>
+
+    <h2 id="scheduled">Scheduled tasks</h2>
+    <p>Open <strong>Tools → Scheduled Tasks</strong> to automate two things on a daily clock:</p>
+    <ul>
+      <li><strong>Restart</strong> — stops and restarts the server at a set time, useful for clearing memory on long-running servers</li>
+      <li><strong>Maintenance window</strong> — turns maintenance mode on and off automatically between a start and end time</li>
+    </ul>
+
+    <h2 id="webhooks">Discord webhooks</h2>
+    <p>Open <strong>Tools → Webhooks</strong> to send server events to one or more Discord channels. Each webhook is configured independently:</p>
+    <ul>
+      <li>A name and the channel's webhook URL</li>
+      <li>Which events to send: server started, server stopped, player joined, player left, backup completed, maintenance mode changed, server crashed</li>
+      <li>An optional mention — <code>everyone</code>, or a specific role ID</li>
+    </ul>
+    <p>Messages are sent in whichever language the app is set to.</p>
+    <div class="callout warn"><strong>Discord access varies by region.</strong> If Discord is restricted on your network, webhook delivery will fail silently from the server's side — the app logs the connection error to the console rather than blocking anything else.</div>
+
+    <h2 id="crash">Crash detection</h2>
+    <p>The app distinguishes a normal shutdown (you pressed Stop) from a crash (the process exited on its own). A crash prints a clearly marked block to the console and, if configured, sends a separate Discord notification — separate from the regular "server stopped" message, so you're not left guessing which one happened.</p>
+
+    <h2 id="tray">System tray</h2>
+    <p>Closing the window doesn't quit the app — it minimizes to the system tray, where the server keeps running. Double-click the tray icon to bring the window back, or right-click it for Show, Stop Server, and Exit. Exit is the only action that actually closes the app.</p>
+
+    <h2 id="shortcuts">Keyboard shortcuts</h2>
+    <table class="req-table">
+      <tr><th>Shortcut</th><th>Action</th></tr>
+      <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">F</span></td><td>Open or close console search</td></tr>
+      <tr><td><span class="kbd">Enter</span></td><td>Send command / jump to next search match</td></tr>
+      <tr><td><span class="kbd">Esc</span></td><td>Close console search</td></tr>
+    </table>
+
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    <h3>"Unable to access file" / server won't start after a crash</h3>
+    <p>If the server was force-killed rather than stopped normally, a <code>java.exe</code> process can be left running in the background holding a lock on the world folder. Open Task Manager, end any leftover <code>java.exe</code> processes, and start the server again.</p>
+    <h3>Webhook messages aren't arriving</h3>
+    <p>Confirm at least one event checkbox is ticked for that webhook, and that the URL was copied in full from Discord. If your network restricts Discord access, the message won't leave your machine — check the console for a connection error.</p>
+    <h3>Antivirus flags the app after building</h3>
+    <p>Some antivirus software inspects newly built executables the first time they run. This is a false positive common to freshly compiled .NET apps — allow it once, or add the app's folder to your antivirus exclusions.</p>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <a href="index.html" class="brand"><span class="brand-dot"></span>MCServerManager++</a>
+      <div class="footer-links">
+        <a href="docs.html">Docs</a>
+        <a href="download.html">Download</a>
+        <a href="https://github.com/MyBetaSoft/MCServerManagerPP">GitHub</a>
+        <a href="https://github.com/MyBetaSoft/MCServerManagerPP/issues">Report an issue</a>
+      </div>
+    </div>
+    <div class="footer-note">MCServerManager++ is an independent tool and is not affiliated with Mojang or Microsoft.</div>
+  </div>
+</footer>
+
+</body>
+</html>

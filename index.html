@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCServerManager++ — Minecraft server management, without the tab-switching</title>
+<meta name="description" content="A desktop app for running your Minecraft Java server: start, stop, backups, Discord alerts, and player management in one window.">
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><span class="brand-dot"></span>MCServerManager++</a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Overview</a>
+      <a href="docs.html">Docs</a>
+      <a href="download.html">Download</a>
+      <a href="https://github.com/MyBetaSoft/MCServerManagerPP" class="nav-cta">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Free &middot; Open source &middot; MyBetaSoft</div>
+      <h1>Run your Minecraft server<br>without the fifteen<span class="plusplus"> browser tabs</span>.</h1>
+      <p class="lead">Start, stop, back up, and watch your Java Edition server from one small window — with Discord alerts and player management built in, not bolted on.</p>
+      <div class="hero-actions">
+        <a href="download.html" class="btn btn-primary">Download for Windows</a>
+        <a href="docs.html" class="btn btn-ghost">Read the docs</a>
+      </div>
+      <div class="meta-row">
+        <div>Vanilla <span>&middot;</span> Paper <span>&middot;</span> Fabric <span>&middot;</span> Forge</div>
+      </div>
+    </div>
+
+    <div class="console" id="console">
+      <div class="console-bar">
+        <span class="console-dot r"></span><span class="console-dot y"></span><span class="console-dot g"></span>
+        <span class="console-title">MCServerManager++</span>
+      </div>
+      <div class="console-body" id="consoleBody"></div>
+    </div>
+  </div>
+</header>
+
+<section class="pad border-b">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>One window. Everything you'd otherwise juggle.</h2>
+      <p>No config-file archaeology, no separate Discord bot to babysit. It's the parts of running a server you actually touch.</p>
+    </div>
+
+    <div class="grid-features">
+      <div class="feature">
+        <div class="num">01</div>
+        <h3>Live console, both ways</h3>
+        <p>Watch server output stream in real time and send commands back without touching a terminal.</p>
+      </div>
+      <div class="feature">
+        <div class="num">02</div>
+        <h3>Backups on a schedule</h3>
+        <p>Pick a time, and the world gets zipped automatically — plus one right before the server closes, just in case.</p>
+      </div>
+      <div class="feature">
+        <div class="num">03</div>
+        <h3>Discord, actually integrated</h3>
+        <p>Wire up webhooks per event — server up, server down, players joining, crashes — each with its own channel and mention.</p>
+      </div>
+      <div class="feature">
+        <div class="num">04</div>
+        <h3>Players, ops, whitelist, bans</h3>
+        <p>Manage everyone who touches your server from one panel instead of four separate commands.</p>
+      </div>
+      <div class="feature">
+        <div class="num">05</div>
+        <h3>Maintenance mode</h3>
+        <p>Lock the server down, kick everyone but staff, and restore the old MOTD automatically when you're done.</p>
+      </div>
+      <div class="feature">
+        <div class="num">06</div>
+        <h3>Crash detection</h3>
+        <p>If the server dies without you telling it to, you'll know immediately — in the console and in Discord.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pad border-b">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Works with the server you already run</h2>
+      <p>Drop your existing install in and MCServerManager++ figures out what it's looking at.</p>
+    </div>
+    <div class="eco-strip">
+      <span>Detected automatically:</span>
+      <span class="green">Vanilla</span> &middot;
+      <span class="green">PaperMC</span> &middot;
+      <span class="green">Fabric</span> &middot;
+      <span class="green">Forge</span>
+    </div>
+  </div>
+</section>
+
+<section class="pad">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Part of MyBetaSoft</h2>
+      <p>Built alongside the rest of the MyBetaSoft ecosystem — an independent set of tools built in the open, one project at a time.</p>
+    </div>
+    <div class="hero-actions">
+      <a href="download.html" class="btn btn-primary">Get MCServerManager++</a>
+      <a href="https://github.com/MyBetaSoft" class="btn btn-ghost">See MyBetaSoft on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <a href="index.html" class="brand"><span class="brand-dot"></span>MCServerManager++</a>
+      <div class="footer-links">
+        <a href="docs.html">Docs</a>
+        <a href="download.html">Download</a>
+        <a href="https://github.com/MyBetaSoft/MCServerManagerPP">GitHub</a>
+        <a href="https://github.com/MyBetaSoft/MCServerManagerPP/issues">Report an issue</a>
+      </div>
+    </div>
+    <div class="footer-note">MCServerManager++ is an independent tool and is not affiliated with Mojang or Microsoft.</div>
+  </div>
+</footer>
+
+<script>
+const lines = [
+  { t: '17:59:24', tag: 'INFO', cls: 'info', text: 'Starting minecraft server version 26.2' },
+  { t: '17:59:24', tag: 'INFO', cls: 'info', text: 'Preparing spawn area: 100%' },
+  { t: '17:59:24', tag: 'INFO', cls: 'ok',   text: 'Done (0.24s)! For help, type "help"' },
+  { t: '18:00:03', tag: 'BACKUP', cls: 'ok', text: 'Automatic backup completed.' },
+  { t: '18:02:41', tag: 'INFO', cls: 'info', text: 'YvzSlmDrms joined the server.' },
+  { t: '18:11:09', tag: 'INFO', cls: 'info', text: 'YvzSlmDrms left the server.' },
+  { t: '19:00:00', tag: 'MAINT', cls: 'warn', text: 'Maintenance mode enabled.' },
+];
+
+const body = document.getElementById('consoleBody');
+let i = 0;
+
+function typeLine() {
+  if (i >= lines.length) {
+    const cursor = document.createElement('div');
+    cursor.className = 'console-line';
+    cursor.style.animationDelay = '0s';
+    cursor.innerHTML = '<span class="console-cursor"></span>';
+    body.appendChild(cursor);
+    return;
+  }
+  const l = lines[i];
+  const row = document.createElement('div');
+  row.className = 'console-line';
+  row.innerHTML = `<span class="t">[${l.t}]</span> <span class="tag">[${l.tag}]</span> <span class="${l.cls}">${l.text}</span>`;
+  body.appendChild(row);
+  i++;
+  setTimeout(typeLine, i === 1 ? 400 : 550);
+}
+
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  typeLine();
+} else {
+  lines.forEach(l => {
+    const row = document.createElement('div');
+    row.className = 'console-line';
+    row.innerHTML = `<span class="t">[${l.t}]</span> <span class="tag">[${l.tag}]</span> <span class="${l.cls}">${l.text}</span>`;
+    body.appendChild(row);
+  });
+}
+</script>
+
+</body>
+</html>

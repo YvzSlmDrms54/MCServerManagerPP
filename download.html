@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download — MCServerManager++</title>
+<meta name="description" content="Download MCServerManager++ for Windows.">
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><span class="brand-dot"></span>MCServerManager++</a>
+    <div class="nav-links">
+      <a href="index.html">Overview</a>
+      <a href="docs.html">Docs</a>
+      <a href="download.html" class="active">Download</a>
+      <a href="https://github.com/MyBetaSoft/MCServerManagerPP" class="nav-cta">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Download</div>
+    <h1>Get MCServerManager++</h1>
+    <p class="lead">Windows only, for now. Pick the build that matches how you want to run it.</p>
+  </div>
+</header>
+
+<section class="pad border-b">
+  <div class="wrap">
+
+    <div class="download-grid">
+      <div class="dl-card">
+        <span class="tag">Recommended</span>
+        <h3>Portable build</h3>
+        <p>A single folder you can drop anywhere — next to a server you already have, on a USB drive, wherever. No install, nothing left behind when you delete it.</p>
+        <a href="https://github.com/MyBetaSoft/MCServerManagerPP/releases/latest" class="btn btn-primary">Download portable .zip</a>
+      </div>
+      <div class="dl-card">
+        <span class="tag">For developers</span>
+        <h3>Build from source</h3>
+        <p>Clone the repository and build it yourself with the .NET 10 SDK. Useful if you want to modify the app or verify what's inside it.</p>
+        <a href="https://github.com/MyBetaSoft/MCServerManagerPP" class="btn btn-ghost">View source on GitHub</a>
+      </div>
+    </div>
+
+    <table class="req-table">
+      <tr><th>Requirement</th><th>Details</th></tr>
+      <tr><td>Operating system</td><td>Windows 10 or later, 64-bit</td></tr>
+      <tr><td>.NET Runtime</td><td>.NET 10 Desktop Runtime — <a href="https://dotnet.microsoft.com/download/dotnet/10.0">get it here</a> if you don't already have it</td></tr>
+      <tr><td>Java</td><td>A Java runtime matching your Minecraft server version, already on your PATH</td></tr>
+      <tr><td>Minecraft server</td><td>Your own server files — Vanilla, Paper, Fabric, or Forge</td></tr>
+    </table>
+
+  </div>
+</section>
+
+<section class="pad">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Setting it up</h2>
+      <p>Five minutes, most of it spent locating your server folder.</p>
+    </div>
+
+    <ol class="step-list">
+      <li><strong>Download and extract</strong> the portable build to a folder of your choice — anywhere on your PC works.</li>
+      <li><strong>Run the app once.</strong> A <code>server</code> folder appears next to the executable, along with a short readme.</li>
+      <li><strong>Copy your server files</strong> — the <code>.jar</code> and an accepted <code>eula.txt</code> — into that <code>server</code> folder. Already running a server elsewhere? Copy the whole thing in.</li>
+      <li><strong>Press Start.</strong> The console will show the server booting up, and the detected server type appears in the top-right corner.</li>
+      <li><strong>Optional:</strong> set up backups, Discord webhooks, and player management from the <strong>Tools</strong> menu whenever you're ready.</li>
+    </ol>
+
+    <div class="callout">Full walkthroughs for every feature — properties, maintenance mode, scheduled tasks, webhooks — are in the <a href="docs.html" style="color: var(--green-bright); text-decoration: underline;">documentation</a>.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <a href="index.html" class="brand"><span class="brand-dot"></span>MCServerManager++</a>
+      <div class="footer-links">
+        <a href="docs.html">Docs</a>
+        <a href="download.html">Download</a>
+        <a href="https://github.com/MyBetaSoft/MCServerManagerPP">GitHub</a>
+        <a href="https://github.com/MyBetaSoft/MCServerManagerPP/issues">Report an issue</a>
+      </div>
+    </div>
+    <div class="footer-note">MCServerManager++ is an independent tool and is not affiliated with Mojang or Microsoft.</div>
+  </div>
+</footer>
+
+</body>
+</html>
