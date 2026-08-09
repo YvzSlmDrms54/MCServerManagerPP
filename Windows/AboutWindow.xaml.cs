@@ -6,8 +6,8 @@ namespace MCServerManagerPP;
 
 public partial class AboutWindow : Window
 {
-    private const string GithubUrl = "https://github.com/MyBetaSoft/MCServerManagerPP";
-    private const string AppVersion = "1.0.0";
+    private const string GithubUrl = "https://github.com/YvzSlmDrms54/MCServerManagerPP";
+    private const string AppVersion = "1.2.0";
 
     public AboutWindow()
     {
