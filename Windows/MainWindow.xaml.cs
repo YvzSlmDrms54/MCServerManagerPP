@@ -32,7 +32,7 @@ public partial class MainWindow : Window
         ApplyLanguage();
         UpdateButtonStates();
         InitTrayIcon();
-        
+        UpdateServerTypeDisplay();
 
         Closing += (s, e) =>
         {
@@ -97,48 +97,12 @@ public partial class MainWindow : Window
         MenuBackup.Header = Lang.Get("menu_backup");
         MenuWebhooks.Header = Lang.Get("menu_webhooks");
         MenuPlayers.Header = Lang.Get("menu_players");
+        MenuMaintenance.Header = Lang.Get("menu_maintenance");
+        MenuScheduled.Header = Lang.Get("menu_scheduled");
 
         MenuHelp.Header = Lang.Get("menu_help");
         MenuAbout.Header = Lang.Get("menu_about");
         MenuKeybinds.Header = Lang.Get("menu_keybinds");
-
-        MenuMaintenance.Header = Lang.Get("menu_maintenance");
-        MenuScheduled.Header = Lang.Get("menu_scheduled");
-
-        UpdateServerTypeDisplay();
-    }
-
-    private void InitTrayIcon()
-    {
-        _trayIcon = new NotifyIcon
-        {
-            Icon = new Icon("icon.ico"),
-            Visible = true,
-            Text = "MCServerManager++"
-        };
-
-        var menu = new ContextMenuStrip();
-        menu.Items.Add(Lang.Get("tray_show"), null, (s, e) => ShowFromTray());
-        menu.Items.Add(Lang.Get("tray_stop_server"), null, (s, e) =>
-        {
-            if (_server.IsRunning) _server.StopServer();
-        });
-        menu.Items.Add(Lang.Get("tray_exit"), null, (s, e) =>
-        {
-            _isClosingForReal = true;
-            _trayIcon!.Visible = false;
-            Close();
-        });
-
-        _trayIcon.ContextMenuStrip = menu;
-        _trayIcon.DoubleClick += (s, e) => ShowFromTray();
-    }
-
-    private void ShowFromTray()
-    {
-        Show();
-        WindowState = WindowState.Normal;
-        Activate();
     }
 
     private void UpdateServerTypeDisplay()
@@ -153,7 +117,46 @@ public partial class MainWindow : Window
             "fabric_or_forge" => Lang.Get("server_type_modded"),
             _ => Lang.Get("server_type_not_installed")
         };
+    }
+
+    private void InitTrayIcon()
+    {
+        _trayIcon = new NotifyIcon
+        {
+            Icon = new Icon("icon.ico"),
+            Visible = true,
+            Text = "MCServerManager++"
+        };
+
+        var menu = new ContextMenuStrip
+        {
+            ShowImageMargin = false,
+            BackColor = System.Drawing.ColorTranslator.FromHtml("#23262C"),
+            ForeColor = System.Drawing.ColorTranslator.FromHtml("#EEF0F2"),
+            Renderer = new OwnerDrawRenderer()
+        };
+
+        menu.Items.Add(Lang.Get("tray_show"), null, (s, e) => ShowFromTray());
+        menu.Items.Add(Lang.Get("tray_stop_server"), null, (s, e) =>
+        {
+            if (_server.IsRunning) _server.StopServer();
+        });
+        menu.Items.Add(Lang.Get("tray_exit"), null, (s, e) =>
+        {
+            _isClosingForReal = true;
+            _trayIcon!.Visible = false;
+            Close();
+        });
+
+        _trayIcon.ContextMenuStrip = menu;
+        _trayIcon.DoubleClick += (s, e) => ShowFromTray();
     }   
+    private void ShowFromTray()
+    {
+        Show();
+        WindowState = WindowState.Normal;
+        Activate();
+    }
 
     private void UpdateButtonStates()
     {
@@ -257,17 +260,6 @@ public partial class MainWindow : Window
         pmWindow.ShowDialog();
     }
 
-    private void BtnAbout_Click(object sender, RoutedEventArgs e)
-    {
-        var aboutWindow = new AboutWindow { Owner = this };
-        aboutWindow.ShowDialog();
-    }
-
-    private void MenuKeybinds_Click(object sender, RoutedEventArgs e)
-    {
-        MessageBox.Show(Lang.Get("keybinds_list"), Lang.Get("menu_keybinds"));
-    }
-
     private void BtnMaintenance_Click(object sender, RoutedEventArgs e)
     {
         var maintWindow = new MaintenanceWindow(_server) { Owner = this };
@@ -278,6 +270,17 @@ public partial class MainWindow : Window
     {
         var schedWindow = new ScheduledTasksWindow(_server) { Owner = this };
         schedWindow.ShowDialog();
+    }
+
+    private void BtnAbout_Click(object sender, RoutedEventArgs e)
+    {
+        var aboutWindow = new AboutWindow { Owner = this };
+        aboutWindow.ShowDialog();
+    }
+
+    private void MenuKeybinds_Click(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show(Lang.Get("keybinds_list"), Lang.Get("menu_keybinds"));
     }
 
     private void BtnSend_Click(object sender, RoutedEventArgs e)
@@ -361,5 +364,47 @@ public partial class MainWindow : Window
         ConsoleOutput.ScrollToLine(ConsoleOutput.GetLineIndexFromCharacterIndex(pos));
 
         SearchStatusText.Text = $"{_currentMatchIndex + 1}/{_searchMatches.Count}";
+    }
+}
+
+public class OwnerDrawRenderer : ToolStripRenderer
+{
+    private static readonly System.Drawing.Color Surface = System.Drawing.ColorTranslator.FromHtml("#23262C");
+    private static readonly System.Drawing.Color Hover = System.Drawing.ColorTranslator.FromHtml("#2B2F36");
+    private static readonly System.Drawing.Color Border = System.Drawing.ColorTranslator.FromHtml("#34383F");
+    private static readonly System.Drawing.Color Text = System.Drawing.ColorTranslator.FromHtml("#EEF0F2");
+    private static readonly System.Drawing.Color TextHover = System.Drawing.ColorTranslator.FromHtml("#7ED883");
+
+    protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+    {
+        e.Graphics.Clear(Surface);
+    }
+
+    protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+    {
+        using var pen = new System.Drawing.Pen(Border);
+        e.Graphics.DrawRectangle(pen, 0, 0, e.ToolStrip.Width - 1, e.ToolStrip.Height - 1);
+    }
+
+    protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+    {
+        var rect = new System.Drawing.Rectangle(System.Drawing.Point.Empty, e.Item.Size);
+        var color = e.Item.Selected ? Hover : Surface;
+        using var brush = new System.Drawing.SolidBrush(color);
+        e.Graphics.FillRectangle(brush, rect);
+    }
+
+    protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+    {
+        var color = e.Item.Selected ? TextHover : Text;
+        using var brush = new System.Drawing.SolidBrush(color);
+        e.Graphics.DrawString(e.Text, e.TextFont, brush, e.TextRectangle);
+    }
+
+    protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
+    {
+        using var pen = new System.Drawing.Pen(Border);
+        int y = e.Item.Height / 2;
+        e.Graphics.DrawLine(pen, 4, y, e.Item.Width - 4, y);
     }
 }
