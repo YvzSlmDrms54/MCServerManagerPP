@@ -4,46 +4,88 @@
         Title="Oyuncu Yönetimi" Height="550" Width="450"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="#F0F0F0">
-    <TabControl x:Name="TabsRoot" Margin="10">
+        Style="{StaticResource ThemedWindow}">
+    <TabControl x:Name="TabsRoot" Margin="14" Background="Transparent" BorderThickness="0">
+        <TabControl.Resources>
+            <Style TargetType="TabItem">
+                <Setter Property="FontFamily" Value="{StaticResource FontMono}"/>
+                <Setter Property="FontSize" Value="12.5"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Border x:Name="Bd" Background="{StaticResource BrushSurface}" 
+                                    BorderBrush="{StaticResource BrushBorder}" BorderThickness="1,1,1,0"
+                                    CornerRadius="6,6,0,0" Padding="14,8" Margin="0,0,2,0">
+                                <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource BrushSurface2}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource BrushGreenBright}"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter Property="Foreground" Value="{StaticResource BrushTextDim}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </TabControl.Resources>
 
         <TabItem x:Name="TabOp" Header="OP">
-            <StackPanel Margin="10">
-                <TextBox x:Name="TxtOpName" Margin="0,0,0,8"/>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Button x:Name="BtnOpAdd" Width="100" Click="BtnOpAdd_Click"/>
-                    <Button x:Name="BtnOpRemove" Width="100" Margin="8,0,0,0" Click="BtnOpRemove_Click"/>
-                    <Button x:Name="BtnOpRefresh" Width="90" Margin="8,0,0,0" Click="BtnOpRefresh_Click"/>
+            <Border Background="{StaticResource BrushSurface2}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" Padding="16">
+                <StackPanel>
+                    <TextBox x:Name="TxtOpName" Style="{StaticResource ThemedTextBox}" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                        <Button x:Name="BtnOpAdd" Style="{StaticResource BtnPrimary}" MinWidth="100" Click="BtnOpAdd_Click"/>
+                        <Button x:Name="BtnOpRemove" Style="{StaticResource BtnGhost}" MinWidth="100" Margin="8,0,0,0" Click="BtnOpRemove_Click"/>
+                        <Button x:Name="BtnOpRefresh" Style="{StaticResource BtnGhost}" MinWidth="90" Margin="8,0,0,0" Click="BtnOpRefresh_Click"/>
+                    </StackPanel>
+                    <TextBlock x:Name="LblOpCurrent" FontFamily="{StaticResource FontMono}" FontWeight="SemiBold" 
+                               Foreground="{StaticResource BrushGreenBright}" Margin="0,0,0,8"/>
+                    <Border Background="{StaticResource BrushSurface}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" CornerRadius="4">
+                        <ListBox x:Name="OpListBox" Height="260" Style="{StaticResource ThemedListBox}" BorderThickness="0" Background="Transparent"/>
+                    </Border>
                 </StackPanel>
-                <TextBlock x:Name="LblOpCurrent" FontWeight="Bold" Margin="0,0,0,5"/>
-                <ListBox x:Name="OpListBox" Height="300"/>
-            </StackPanel>
+            </Border>
         </TabItem>
 
         <TabItem x:Name="TabWhitelist" Header="Whitelist">
-            <StackPanel Margin="10">
-                <TextBox x:Name="TxtWhitelistName" Margin="0,0,0,8"/>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Button x:Name="BtnWhitelistAdd" Width="100" Click="BtnWhitelistAdd_Click"/>
-                    <Button x:Name="BtnWhitelistRemove" Width="100" Margin="8,0,0,0" Click="BtnWhitelistRemove_Click"/>
-                    <Button x:Name="BtnWhitelistRefresh" Width="90" Margin="8,0,0,0" Click="BtnWhitelistRefresh_Click"/>
+            <Border Background="{StaticResource BrushSurface2}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" Padding="16">
+                <StackPanel>
+                    <TextBox x:Name="TxtWhitelistName" Style="{StaticResource ThemedTextBox}" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                        <Button x:Name="BtnWhitelistAdd" Style="{StaticResource BtnPrimary}" MinWidth="100" Click="BtnWhitelistAdd_Click"/>
+                        <Button x:Name="BtnWhitelistRemove" Style="{StaticResource BtnGhost}" MinWidth="100" Margin="8,0,0,0" Click="BtnWhitelistRemove_Click"/>
+                        <Button x:Name="BtnWhitelistRefresh" Style="{StaticResource BtnGhost}" MinWidth="90" Margin="8,0,0,0" Click="BtnWhitelistRefresh_Click"/>
+                    </StackPanel>
+                    <TextBlock x:Name="LblWhitelistCurrent" FontFamily="{StaticResource FontMono}" FontWeight="SemiBold" 
+                               Foreground="{StaticResource BrushGreenBright}" Margin="0,0,0,8"/>
+                    <Border Background="{StaticResource BrushSurface}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" CornerRadius="4">
+                        <ListBox x:Name="WhitelistListBox" Height="260" Style="{StaticResource ThemedListBox}" BorderThickness="0" Background="Transparent"/>
+                    </Border>
                 </StackPanel>
-                <TextBlock x:Name="LblWhitelistCurrent" FontWeight="Bold" Margin="0,0,0,5"/>
-                <ListBox x:Name="WhitelistListBox" Height="300"/>
-            </StackPanel>
+            </Border>
         </TabItem>
 
         <TabItem x:Name="TabBan" Header="Ban">
-            <StackPanel Margin="10">
-                <TextBox x:Name="TxtBanName" Margin="0,0,0,8"/>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Button x:Name="BtnBanAdd" Width="100" Click="BtnBanAdd_Click"/>
-                    <Button x:Name="BtnBanRemove" Width="100" Margin="8,0,0,0" Click="BtnBanRemove_Click"/>
-                    <Button x:Name="BtnBanRefresh" Width="90" Margin="8,0,0,0" Click="BtnBanRefresh_Click"/>
+            <Border Background="{StaticResource BrushSurface2}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" Padding="16">
+                <StackPanel>
+                    <TextBox x:Name="TxtBanName" Style="{StaticResource ThemedTextBox}" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                        <Button x:Name="BtnBanAdd" Style="{StaticResource BtnPrimary}" MinWidth="100" Click="BtnBanAdd_Click"/>
+                        <Button x:Name="BtnBanRemove" Style="{StaticResource BtnGhost}" MinWidth="100" Margin="8,0,0,0" Click="BtnBanRemove_Click"/>
+                        <Button x:Name="BtnBanRefresh" Style="{StaticResource BtnGhost}" MinWidth="90" Margin="8,0,0,0" Click="BtnBanRefresh_Click"/>
+                    </StackPanel>
+                    <TextBlock x:Name="LblBanCurrent" FontFamily="{StaticResource FontMono}" FontWeight="SemiBold" 
+                               Foreground="{StaticResource BrushGreenBright}" Margin="0,0,0,8"/>
+                    <Border Background="{StaticResource BrushSurface}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" CornerRadius="4">
+                        <ListBox x:Name="BanListBox" Height="260" Style="{StaticResource ThemedListBox}" BorderThickness="0" Background="Transparent"/>
+                    </Border>
                 </StackPanel>
-                <TextBlock x:Name="LblBanCurrent" FontWeight="Bold" Margin="0,0,0,5"/>
-                <ListBox x:Name="BanListBox" Height="300"/>
-            </StackPanel>
+            </Border>
         </TabItem>
 
     </TabControl>

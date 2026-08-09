@@ -22,9 +22,9 @@ public partial class MaintenanceWindow : Window
         bool active = _server.Config.MaintenanceModeActive;
 
         LblStatus.Text = active ? Lang.Get("maintenance_status_on") : Lang.Get("maintenance_status_off");
-        LblStatus.Foreground = active
-            ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.OrangeRed)
-            : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Green);
+            LblStatus.Foreground = active
+        ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0xFF, 0xCC, 0x66)) // uyarı sarısı
+        : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x7E, 0xD8, 0x83)); // BrushGreenBright
 
         BtnToggle.Content = active ? Lang.Get("maintenance_disable") : Lang.Get("maintenance_enable");
     }

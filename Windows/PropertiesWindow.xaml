@@ -4,240 +4,257 @@
         Title="Server Properties" Height="650" Width="700"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="#F0F0F0">
+        Style="{StaticResource ThemedWindow}">
     <Window.Resources>
-        <Style x:Key="ToggleSwitchStyle" TargetType="ToggleButton">
+        <Style x:Key="ThemedCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BrushSurface}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BrushBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="14"/>
+            <Setter Property="Margin" Value="6"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="FontFamily" Value="{StaticResource FontMono}"/>
+            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border x:Name="SwitchBorder" Width="50" Height="26" CornerRadius="13" Background="#CCCCCC">
-                            <Ellipse x:Name="Knob" Width="20" Height="20" Fill="White"
-                                     HorizontalAlignment="Left" Margin="3,0,0,0"/>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Bd" Background="{StaticResource BrushSurface}" 
+                                BorderBrush="{StaticResource BrushBorder}" BorderThickness="1,1,1,0"
+                                CornerRadius="6,6,0,0" Padding="14,8" Margin="0,0,2,0">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="SwitchBorder" Property="Background" Value="#4CAF50"/>
-                                <Setter TargetName="Knob" Property="HorizontalAlignment" Value="Right"/>
-                                <Setter TargetName="Knob" Property="Margin" Value="0,0,3,0"/>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource BrushSurface2}"/>
+                                <Setter Property="Foreground" Value="{StaticResource BrushGreenBright}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Foreground" Value="{StaticResource BrushTextDim}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <Style x:Key="CardStyle" TargetType="Border">
-            <Setter Property="Background" Value="#E0E0E0"/>
-            <Setter Property="Padding" Value="12"/>
-            <Setter Property="Margin" Value="6"/>
-        </Style>
     </Window.Resources>
 
-    <DockPanel Margin="10">
-        <Button x:Name="BtnSave" Content="Kaydet" DockPanel.Dock="Bottom" Height="35" Margin="0,10,0,0" Click="BtnSave_Click"/>
+    <DockPanel Margin="14">
+        <Button x:Name="BtnSave" Height="36" DockPanel.Dock="Bottom" Style="{StaticResource BtnPrimary}" 
+                Margin="0,14,0,0" Click="BtnSave_Click"/>
 
-        <TabControl x:Name="TabsRoot">
+        <TabControl x:Name="TabsRoot" Background="Transparent" BorderThickness="0">
 
             <TabItem x:Name="TabGeneral" Header="Genel">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <WrapPanel>
+                <Border Background="{StaticResource BrushSurface2}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" Padding="8">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <WrapPanel>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblMotd" Text="Sunucu Açıklaması" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <TextBox x:Name="TxtMotd" Width="280" HorizontalAlignment="Left"/>
-                                <TextBlock Text="motd" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblMaxPlayers" Text="Oyuncu Sayısı" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtMaxPlayers" Width="60" Text="20"/>
-                                    <Button Content="-" Width="25" Margin="5,0,0,0" Click="BtnMaxPlayersDown_Click"/>
-                                    <Button Content="+" Width="25" Margin="3,0,0,0" Click="BtnMaxPlayersUp_Click"/>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblMotd" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="TxtMotd" Width="270" Style="{StaticResource ThemedTextBox}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="motd" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
                                 </StackPanel>
-                                <TextBlock Text="max-players" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblOnlineMode" Text="Orijinal Hesap Zorunluluğu" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ToggleButton x:Name="ToggleOnlineMode" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="online-mode" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblMaxPlayers" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="TxtMaxPlayers" Width="60" Style="{StaticResource ThemedTextBox}" Text="20"/>
+                                        <Button Content="-" Width="30" Style="{StaticResource BtnGhost}" Padding="0" Margin="6,0,0,0" Click="BtnMaxPlayersDown_Click"/>
+                                        <Button Content="+" Width="30" Style="{StaticResource BtnGhost}" Padding="0" Margin="6,0,0,0" Click="BtnMaxPlayersUp_Click"/>
+                                    </StackPanel>
+                                    <TextBlock Text="max-players" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblWhitelist" Text="Güvenilir Liste" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ToggleButton x:Name="ToggleWhitelist" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="white-list" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblOnlineMode" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ToggleButton x:Name="ToggleOnlineMode" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="online-mode" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                    </WrapPanel>
-                </ScrollViewer>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblWhitelist" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ToggleButton x:Name="ToggleWhitelist" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="white-list" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
+
+                        </WrapPanel>
+                    </ScrollViewer>
+                </Border>
             </TabItem>
 
             <TabItem x:Name="TabGamerules" Header="Oyun Kuralları">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <UniformGrid Columns="2">
+                <Border Background="{StaticResource BrushSurface2}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" Padding="8">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <UniformGrid Columns="2">
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblGamemode" Text="Oyun Modu" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ComboBox x:Name="ComboGamemode" Width="150" HorizontalAlignment="Left">
-                                    <ComboBoxItem Content="survival"/>
-                                    <ComboBoxItem Content="creative"/>
-                                    <ComboBoxItem Content="adventure"/>
-                                    <ComboBoxItem Content="spectator"/>
-                                </ComboBox>
-                                <TextBlock Text="gamemode" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblGamemode" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ComboBox x:Name="ComboGamemode" Width="150" Style="{StaticResource ThemedComboBox}" HorizontalAlignment="Left">
+                                        <ComboBoxItem Content="survival"/>
+                                        <ComboBoxItem Content="creative"/>
+                                        <ComboBoxItem Content="adventure"/>
+                                        <ComboBoxItem Content="spectator"/>
+                                    </ComboBox>
+                                    <TextBlock Text="gamemode" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblDifficulty" Text="Zorluk" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ComboBox x:Name="ComboDifficulty" Width="150" HorizontalAlignment="Left">
-                                    <ComboBoxItem Content="peaceful"/>
-                                    <ComboBoxItem Content="easy"/>
-                                    <ComboBoxItem Content="normal"/>
-                                    <ComboBoxItem Content="hard"/>
-                                </ComboBox>
-                                <TextBlock Text="difficulty" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblDifficulty" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ComboBox x:Name="ComboDifficulty" Width="150" Style="{StaticResource ThemedComboBox}" HorizontalAlignment="Left">
+                                        <ComboBoxItem Content="peaceful"/>
+                                        <ComboBoxItem Content="easy"/>
+                                        <ComboBoxItem Content="normal"/>
+                                        <ComboBoxItem Content="hard"/>
+                                    </ComboBox>
+                                    <TextBlock Text="difficulty" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblPvp" Text="PVP" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ToggleButton x:Name="TogglePvp" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="pvp" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblPvp" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ToggleButton x:Name="TogglePvp" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="pvp" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblHardcore" Text="Hardcore Mod" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ToggleButton x:Name="ToggleHardcore" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="hardcore" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblHardcore" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ToggleButton x:Name="ToggleHardcore" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="hardcore" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblSpawnMonsters" Text="Canavar Doğması" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ToggleButton x:Name="ToggleSpawnMonsters" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="spawn-monsters" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblSpawnMonsters" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ToggleButton x:Name="ToggleSpawnMonsters" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="spawn-monsters" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblAllowFlight" Text="Uçmak" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ToggleButton x:Name="ToggleAllowFlight" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="allow-flight" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblAllowFlight" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ToggleButton x:Name="ToggleAllowFlight" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="allow-flight" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblForceGamemode" Text="Varsayılan Oyun Modu Zorunluluğu" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8" TextWrapping="Wrap"/>
-                                <ToggleButton x:Name="ToggleForceGamemode" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="force-gamemode" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblForceGamemode" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                                    <ToggleButton x:Name="ToggleForceGamemode" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="force-gamemode" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                    </UniformGrid>
-                </ScrollViewer>
+                        </UniformGrid>
+                    </ScrollViewer>
+                </Border>
             </TabItem>
 
             <TabItem x:Name="TabPerformance" Header="Performans">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <WrapPanel>
+                <Border Background="{StaticResource BrushSurface2}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" Padding="8">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <WrapPanel>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblViewDistance" Text="Görüş Mesafesi" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtViewDistance" Width="60" Text="10"/>
-                                    <Button Content="-" Width="25" Margin="5,0,0,0" Click="BtnViewDistanceDown_Click"/>
-                                    <Button Content="+" Width="25" Margin="3,0,0,0" Click="BtnViewDistanceUp_Click"/>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblViewDistance" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="TxtViewDistance" Width="60" Style="{StaticResource ThemedTextBox}" Text="10"/>
+                                        <Button Content="-" Width="30" Style="{StaticResource BtnGhost}" Padding="0" Margin="6,0,0,0" Click="BtnViewDistanceDown_Click"/>
+                                        <Button Content="+" Width="30" Style="{StaticResource BtnGhost}" Padding="0" Margin="6,0,0,0" Click="BtnViewDistanceUp_Click"/>
+                                    </StackPanel>
+                                    <TextBlock Text="view-distance" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
                                 </StackPanel>
-                                <TextBlock Text="view-distance" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblSimDistance" Text="Simülasyon Mesafesi" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtSimDistance" Width="60" Text="10"/>
-                                    <Button Content="-" Width="25" Margin="5,0,0,0" Click="BtnSimDistanceDown_Click"/>
-                                    <Button Content="+" Width="25" Margin="3,0,0,0" Click="BtnSimDistanceUp_Click"/>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblSimDistance" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="TxtSimDistance" Width="60" Style="{StaticResource ThemedTextBox}" Text="10"/>
+                                        <Button Content="-" Width="30" Style="{StaticResource BtnGhost}" Padding="0" Margin="6,0,0,0" Click="BtnSimDistanceDown_Click"/>
+                                        <Button Content="+" Width="30" Style="{StaticResource BtnGhost}" Padding="0" Margin="6,0,0,0" Click="BtnSimDistanceUp_Click"/>
+                                    </StackPanel>
+                                    <TextBlock Text="simulation-distance" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
                                 </StackPanel>
-                                <TextBlock Text="simulation-distance" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblSpawnProtection" Text="Doğuş Koruması" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtSpawnProtection" Width="60" Text="0"/>
-                                    <Button Content="-" Width="25" Margin="5,0,0,0" Click="BtnSpawnProtectionDown_Click"/>
-                                    <Button Content="+" Width="25" Margin="3,0,0,0" Click="BtnSpawnProtectionUp_Click"/>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblSpawnProtection" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="TxtSpawnProtection" Width="60" Style="{StaticResource ThemedTextBox}" Text="0"/>
+                                        <Button Content="-" Width="30" Style="{StaticResource BtnGhost}" Padding="0" Margin="6,0,0,0" Click="BtnSpawnProtectionDown_Click"/>
+                                        <Button Content="+" Width="30" Style="{StaticResource BtnGhost}" Padding="0" Margin="6,0,0,0" Click="BtnSpawnProtectionUp_Click"/>
+                                    </StackPanel>
+                                    <TextBlock Text="spawn-protection" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
                                 </StackPanel>
-                                <TextBlock Text="spawn-protection" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            </Border>
 
-                    </WrapPanel>
-                </ScrollViewer>
+                        </WrapPanel>
+                    </ScrollViewer>
+                </Border>
             </TabItem>
 
             <TabItem x:Name="TabSecurity" Header="Güvenlik">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <WrapPanel>
+                <Border Background="{StaticResource BrushSurface2}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" Padding="8">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <WrapPanel>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblCommandBlock" Text="Komut Bloğu" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8"/>
-                                <ToggleButton x:Name="ToggleCommandBlock" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="enable-command-block" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblCommandBlock" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8"/>
+                                    <ToggleButton x:Name="ToggleCommandBlock" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="enable-command-block" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblRequireResourcePack" Text="Kaynak Paketi Zorunluluğu" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8" TextWrapping="Wrap"/>
-                                <ToggleButton x:Name="ToggleRequireResourcePack" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="require-resource-pack" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblRequireResourcePack" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                                    <ToggleButton x:Name="ToggleRequireResourcePack" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="require-resource-pack" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblEnforceSecureProfile" Text="Güvenli Profil Zorunluluğu" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8" TextWrapping="Wrap"/>
-                                <ToggleButton x:Name="ToggleEnforceSecureProfile" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="enforce-secure-profile" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblEnforceSecureProfile" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                                    <ToggleButton x:Name="ToggleEnforceSecureProfile" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="enforce-secure-profile" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                        <Border Style="{StaticResource CardStyle}" Width="320">
-                            <StackPanel>
-                                <TextBlock x:Name="LblPreventProxy" Text="Proxy/VPN Engelleme" FontWeight="Bold" Foreground="Black" Margin="0,0,0,8" TextWrapping="Wrap"/>
-                                <ToggleButton x:Name="TogglePreventProxy" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Left"/>
-                                <TextBlock Text="prevent-proxy-connections" Foreground="Gray" FontSize="11" Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <Border Style="{StaticResource ThemedCardStyle}" Width="310">
+                                <StackPanel>
+                                    <TextBlock x:Name="LblPreventProxy" FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                                    <ToggleButton x:Name="TogglePreventProxy" Style="{StaticResource ThemedToggle}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="prevent-proxy-connections" Foreground="{StaticResource BrushTextFaint}" FontFamily="{StaticResource FontMono}" FontSize="11" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
 
-                    </WrapPanel>
-                </ScrollViewer>
+                        </WrapPanel>
+                    </ScrollViewer>
+                </Border>
             </TabItem>
 
         </TabControl>

@@ -4,16 +4,16 @@
         Title="Bakım Modu" Height="280" Width="400"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="#F0F0F0">
-    <StackPanel Margin="20" VerticalAlignment="Center">
+        Style="{StaticResource ThemedWindow}">
+    <StackPanel Margin="24" VerticalAlignment="Center">
 
-        <TextBlock x:Name="LblStatus" FontSize="16" FontWeight="Bold" 
-                   HorizontalAlignment="Center" Margin="0,0,0,15"/>
+        <TextBlock x:Name="LblStatus" FontFamily="{StaticResource FontMono}" FontSize="16" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,16"/>
 
-        <TextBlock x:Name="LblDescription" TextWrapping="Wrap" 
-                   TextAlignment="Center" Foreground="Gray" Margin="0,0,0,20"/>
+        <TextBlock x:Name="LblDescription" TextWrapping="Wrap" FontSize="13" 
+                   TextAlignment="Center" Foreground="{StaticResource BrushTextDim}" Margin="0,0,0,22"/>
 
-        <Button x:Name="BtnToggle" Height="40" Click="BtnToggle_Click"/>
+        <Button x:Name="BtnToggle" Height="38" Style="{StaticResource BtnPrimary}" Click="BtnToggle_Click"/>
 
     </StackPanel>
 </Window>
