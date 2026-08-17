@@ -85,6 +85,21 @@
         <h3>Crash detection</h3>
         <p>If the server dies without you telling it to, you'll know immediately — in the console and in Discord.</p>
       </div>
+      <div class="feature">
+        <div class="num">07</div>
+        <h3>One-click install</h3>
+        <p>No server yet? Pick Vanilla, Paper, or Fabric and it downloads, sets up, and detects itself — no manual jar-hunting.</p>
+      </div>
+      <div class="feature">
+        <div class="num">08</div>
+        <h3>Scheduled tasks</h3>
+        <p>Daily auto-restarts and maintenance windows that turn themselves on and off, no babysitting required.</p>
+      </div>
+      <div class="feature">
+        <div class="num">09</div>
+        <h3>Dark &amp; light themes</h3>
+        <p>A fully custom interface, right down to the tray menu — pick the theme that matches how you work.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -92,16 +107,27 @@
 <section class="pad border-b">
   <div class="wrap">
     <div class="section-head">
-      <h2>Works with the server you already run</h2>
-      <p>Drop your existing install in and MCServerManager++ figures out what it's looking at.</p>
+      <h2>Don't have a server yet? Pick one.</h2>
+      <p>MCServerManager++ downloads the real thing from the official source and sets it up — try it below.</p>
     </div>
-    <div class="eco-strip">
-      <span>Detected automatically:</span>
-      <span class="green">Vanilla</span> &middot;
-      <span class="green">PaperMC</span> &middot;
-      <span class="green">Fabric</span> &middot;
-      <span class="green">Forge</span>
+
+    <div class="installer-tabs" role="tablist">
+      <button class="installer-tab active" data-platform="vanilla">Vanilla</button>
+      <button class="installer-tab" data-platform="paper">PaperMC</button>
+      <button class="installer-tab" data-platform="fabric">Fabric</button>
+      <button class="installer-tab" data-platform="forge">Forge</button>
     </div>
+
+    <div class="console" id="installerConsole">
+      <div class="console-bar">
+        <span class="console-dot r"></span><span class="console-dot y"></span><span class="console-dot g"></span>
+        <span class="console-title" id="installerTitle">Install Server — Vanilla</span>
+      </div>
+      <div class="console-body" id="installerBody"></div>
+      <div class="installer-progress"><div class="installer-progress-bar" id="installerProgress"></div></div>
+    </div>
+
+    <div class="installer-note"><span class="green">●</span> Already have a server folder? It's detected automatically the moment you drop it in — no install needed.</div>
   </div>
 </section>
 
@@ -114,7 +140,6 @@
     <div class="hero-actions">
       <a href="download.html" class="btn btn-primary">Get MCServerManager++</a>
       <a href="https://github.com/MyBetaSoft" class="btn btn-ghost">See MyBetaSoft on GitHub</a>
-      <a href="https://mybetasoft.com" class="btn btn-ghost">See other projects made by MyBetaSoft</a>
     </div>
   </div>
 </section>
@@ -176,6 +201,93 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     body.appendChild(row);
   });
 }
+
+/* ---------------- Interactive installer demo ---------------- */
+
+const installLogs = {
+  vanilla: [
+    { tag: 'INSTALL', cls: 'info', text: 'Fetching version manifest from Mojang...' },
+    { tag: 'INSTALL', cls: 'info', text: 'Latest release: 1.21.10' },
+    { tag: 'INSTALL', cls: 'info', text: 'Downloading minecraft_server.1.21.10.jar (54.2 MB)' },
+    { tag: 'INSTALL', cls: 'ok',   text: 'Done. Server type detected: Vanilla' },
+  ],
+  paper: [
+    { tag: 'INSTALL', cls: 'info', text: 'Querying PaperMC Fill API...' },
+    { tag: 'INSTALL', cls: 'info', text: 'Latest build: 1.21.10 #48 (STABLE)' },
+    { tag: 'INSTALL', cls: 'info', text: 'Downloading paper-1.21.10-48.jar' },
+    { tag: 'INSTALL', cls: 'ok',   text: 'Done. Server type detected: PaperMC' },
+  ],
+  fabric: [
+    { tag: 'INSTALL', cls: 'info', text: 'Resolving Fabric loader + installer versions...' },
+    { tag: 'INSTALL', cls: 'info', text: 'Loader 0.16.10 · Installer 1.0.1' },
+    { tag: 'INSTALL', cls: 'info', text: 'Building server launcher jar...' },
+    { tag: 'INSTALL', cls: 'ok',   text: 'Done. Server type detected: Fabric' },
+  ],
+  forge: [
+    { tag: 'INSTALL', cls: 'info', text: 'Fetching Forge installer for 1.21.10...' },
+    { tag: 'INSTALL', cls: 'info', text: 'Downloading forge-1.21.10-installer.jar' },
+    { tag: 'INSTALL', cls: 'warn', text: 'Running installer with -installServer...' },
+    { tag: 'INSTALL', cls: 'ok',   text: 'Done. Server type detected: Forge' },
+  ],
+};
+
+const installerBody = document.getElementById('installerBody');
+const installerTitle = document.getElementById('installerTitle');
+const installerProgress = document.getElementById('installerProgress');
+const installerTabs = document.querySelectorAll('.installer-tab');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let installerRunId = 0;
+
+function runInstaller(platform) {
+  const runId = ++installerRunId;
+  const logLines = installLogs[platform];
+  const labels = { vanilla: 'Vanilla', paper: 'PaperMC', fabric: 'Fabric', forge: 'Forge' };
+
+  installerTitle.textContent = `Install Server — ${labels[platform]}`;
+  installerBody.innerHTML = '';
+  installerProgress.style.width = '0%';
+
+  if (reduceMotion) {
+    logLines.forEach(l => appendInstallerLine(l));
+    installerProgress.style.width = '100%';
+    return;
+  }
+
+  let i = 0;
+  function step() {
+    if (runId !== installerRunId) return;
+    if (i >= logLines.length) {
+      const cursor = document.createElement('div');
+      cursor.className = 'console-line';
+      cursor.style.animationDelay = '0s';
+      cursor.innerHTML = '<span class="console-cursor"></span>';
+      installerBody.appendChild(cursor);
+      return;
+    }
+    appendInstallerLine(logLines[i]);
+    i++;
+    installerProgress.style.width = `${Math.round((i / logLines.length) * 100)}%`;
+    setTimeout(step, i === 1 ? 350 : 480);
+  }
+  step();
+}
+
+function appendInstallerLine(l) {
+  const row = document.createElement('div');
+  row.className = 'console-line';
+  row.innerHTML = `<span class="tag">[${l.tag}]</span> <span class="${l.cls}">${l.text}</span>`;
+  installerBody.appendChild(row);
+}
+
+installerTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    installerTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    runInstaller(tab.dataset.platform);
+  });
+});
+
+runInstaller('vanilla');
 </script>
 
 </body>
