@@ -23,7 +23,8 @@ public class ServerManager
 
     private readonly string _serverDirectory = 
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "server");
-    private readonly string _jarName = "minecraft_server.26.2.jar";
+    private string CurrentJarName => 
+        !string.IsNullOrEmpty(Config.InstalledJarName) ? Config.InstalledJarName : "minecraft_server.26.2.jar";
     private readonly string _javaArgs = "-Xmx4G -Xms4G";
 
     public DateTime? LastBackupTime { get; private set; }
@@ -462,14 +463,79 @@ public class ServerManager
 
     public string DetectServerType()
     {
-        bool hasVersions = Directory.Exists(Path.Combine(_serverDirectory, "versions"));
         bool hasPlugins = Directory.Exists(Path.Combine(_serverDirectory, "plugins"));
         bool hasMods = Directory.Exists(Path.Combine(_serverDirectory, "mods"));
 
-        if (!hasVersions) return "not_installed";
+        bool hasJar = !string.IsNullOrEmpty(Config.InstalledJarName) &&
+                      File.Exists(Path.Combine(_serverDirectory, Config.InstalledJarName));
+
+        // fallback: eskiden elle kurulmuş, config'de kaydı olmayan bir jar var mı diye bak
+        if (!hasJar)
+        {
+            var jarFiles = Directory.Exists(_serverDirectory)
+                ? Directory.GetFiles(_serverDirectory, "*.jar")
+                : Array.Empty<string>();
+            hasJar = jarFiles.Length > 0;
+        }
+
+        if (!hasJar) return "not_installed";
         if (hasPlugins) return "paper";
         if (hasMods) return DetectModLoader();
-        return "vanilla";
+        return string.IsNullOrEmpty(Config.InstalledServerType) ? "vanilla" : Config.InstalledServerType;
+    }
+
+    public async Task<string> InstallVanillaServer()
+    {
+        var installer = new ServerInstaller(_serverDirectory);
+        installer.OnProgress += msg => OnLogReceived?.Invoke($"[KURULUM] {msg}");
+
+        var result = await installer.InstallVanillaAsync();
+
+        if (result.Success)
+        {
+            Config.InstalledJarName = result.JarName;
+            Config.InstalledVersion = result.Version;
+            Config.InstalledServerType = "vanilla";
+            SaveConfig();
+        }
+
+        return result.Message;
+    }
+
+    public async Task<string> InstallPaperServer()
+    {
+        var installer = new ServerInstaller(_serverDirectory);
+        installer.OnProgress += msg => OnLogReceived?.Invoke($"[KURULUM] {msg}");
+
+        var result = await installer.InstallPaperAsync();
+
+        if (result.Success)
+        {
+            Config.InstalledJarName = result.JarName;
+            Config.InstalledVersion = result.Version;
+            Config.InstalledServerType = "paper";
+            SaveConfig();
+        }
+
+        return result.Message;
+    }
+
+    public async Task<string> InstallFabricServer()
+    {
+        var installer = new ServerInstaller(_serverDirectory);
+        installer.OnProgress += msg => OnLogReceived?.Invoke($"[KURULUM] {msg}");
+
+        var result = await installer.InstallFabricAsync();
+
+        if (result.Success)
+        {
+            Config.InstalledJarName = result.JarName;
+            Config.InstalledVersion = result.Version;
+            Config.InstalledServerType = "fabric";
+            SaveConfig();
+        }
+
+        return result.Message;
     }
 
     private string DetectModLoader()
@@ -498,7 +564,7 @@ public class ServerManager
     {
         if (IsRunning) return;
 
-        string jarPath = Path.Combine(_serverDirectory, _jarName);
+        string jarPath = Path.Combine(_serverDirectory, CurrentJarName);
         if (!File.Exists(jarPath))
         {
             OnLogReceived?.Invoke($"[{Lang.Get("log_error")}] {Lang.Get("log_jar_not_found")}: {jarPath}");
@@ -510,7 +576,7 @@ public class ServerManager
         var psi = new ProcessStartInfo
         {
             FileName = "java",
-            Arguments = $"{_javaArgs} -jar {_jarName} nogui",
+            Arguments = $"{_javaArgs} -jar {CurrentJarName} nogui",
             WorkingDirectory = _serverDirectory,
             RedirectStandardInput = true,
             RedirectStandardOutput = true,

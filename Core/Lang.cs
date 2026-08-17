@@ -23,6 +23,22 @@ public static class Lang
             ["btn_about"] = "Hakkında",
             ["send"] = "Gönder",
 
+            ["btn_install_server"] = "Sunucuyu Kur",
+            ["install_choose_title"] = "Sunucu Türü Seç",
+            ["install_vanilla"] = "Vanilla",
+            ["install_paper"] = "PaperMC",
+            ["install_fabric"] = "Fabric",
+            ["install_forge"] = "Forge",
+            ["install_installing"] = "Kuruluyor, lütfen bekleyin...",
+            ["install_done"] = "Kurulum tamamlandı!",
+            ["install_failed"] = "Kurulum başarısız",
+
+            ["themed_msgbox_ok"] = "Tamam",
+            ["themed_msgbox_cancel"] = "İptal",
+
+            ["menu_toggle_theme"] = "Tema Değiştir (Koyu/Açık)",
+            ["theme_restart_needed"] = "Tema değişikliği için uygulama yeniden başlatılacak.",
+
             ["menu_server"] = "Sunucu",
             ["menu_tools"] = "Araçlar",
             ["menu_about_root"] = "Hakkında",
@@ -193,6 +209,22 @@ public static class Lang
             ["players_header"] = "Players",
             ["send"] = "Send",
             ["restart_tooltip"] = "Restart",
+
+            ["menu_toggle_theme"] = "Toggle Theme (Dark/Light)",
+            ["theme_restart_needed"] = "The app will restart to apply the theme change.",
+
+            ["btn_install_server"] = "Install Server",
+            ["install_choose_title"] = "Choose Server Type",
+            ["install_vanilla"] = "Vanilla",
+            ["install_paper"] = "PaperMC",
+            ["install_fabric"] = "Fabric",
+            ["install_forge"] = "Forge",
+            ["install_installing"] = "Installing, please wait...",
+            ["install_done"] = "Installation complete!",
+            ["install_failed"] = "Installation failed",
+
+            ["themed_msgbox_ok"] = "OK",
+            ["themed_msgbox_cancel"] = "Cancel",
 
             ["menu_server"] = "Server",
             ["menu_tools"] = "Tools",

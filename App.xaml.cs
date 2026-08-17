@@ -26,7 +26,18 @@ public partial class App : Application
 
         Lang.CurrentLanguage = string.IsNullOrEmpty(tempServer.Config.Language) ? "tr" : tempServer.Config.Language;
 
+        LoadTheme(tempServer.Config.Theme);
+
         var mainWindow = new MainWindow();
         mainWindow.Show();
+    }
+
+    public static void LoadTheme(string themeName)
+    {
+        string fileName = themeName == "light" ? "Theme.Light.xaml" : "Theme.Dark.xaml";
+        var dict = new ResourceDictionary { Source = new Uri(fileName, UriKind.Relative) };
+
+        Current.Resources.MergedDictionaries.Clear();
+        Current.Resources.MergedDictionaries.Add(dict);
     }
 }

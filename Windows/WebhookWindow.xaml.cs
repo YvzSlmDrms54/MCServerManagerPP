@@ -47,7 +47,7 @@ public partial class WebhookWindow : Window
     {
         if (string.IsNullOrWhiteSpace(TxtWebhookName.Text) || string.IsNullOrWhiteSpace(TxtWebhookUrl.Text))
         {
-            MessageBox.Show(Lang.Get("webhook_empty_error"), "MCServerManager++");
+            ThemedMessageBox.Show(Lang.Get("webhook_empty_error"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
             return;
         }
 
@@ -87,7 +87,7 @@ public partial class WebhookWindow : Window
         int index = WebhookListBox.SelectedIndex;
         if (index < 0)
         {
-            MessageBox.Show(Lang.Get("webhook_select_delete"), "MCServerManager++");
+            ThemedMessageBox.Show(Lang.Get("webhook_select_delete"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
             return;
         }
 

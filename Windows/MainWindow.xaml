@@ -24,6 +24,7 @@
             <MenuItem x:Name="MenuHelp">
                 <MenuItem x:Name="MenuAbout" Click="BtnAbout_Click"/>
                 <MenuItem x:Name="MenuKeybinds" Click="MenuKeybinds_Click"/>
+                <MenuItem x:Name="MenuToggleTheme" Click="MenuToggleTheme_Click"/>
             </MenuItem>
         </Menu>
 
@@ -50,6 +51,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,12">
+                    <Button x:Name="BtnInstallServer" Style="{StaticResource BtnPrimary}" Click="BtnInstallServer_Click" Visibility="Collapsed"/>
                     <Button x:Name="BtnStart" Style="{StaticResource BtnPrimary}" Click="BtnStart_Click"/>
                     <Button x:Name="BtnStop" Margin="8,0,0,0" Style="{StaticResource BtnGhost}" Click="BtnStop_Click"/>
                     <Button x:Name="BtnRestart" Margin="8,0,0,0" Style="{StaticResource BtnGhost}" Click="BtnRestart_Click"/>

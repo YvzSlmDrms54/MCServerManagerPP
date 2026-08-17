@@ -5,6 +5,10 @@ namespace MCServerManagerPP;
 public class AppConfig
 {
     public string Language { get; set; } = "";
+    public string Theme { get; set; } = "dark";
+    public string InstalledJarName { get; set; } = "";
+    public string InstalledVersion { get; set; } = "";
+    public string InstalledServerType { get; set; } = "";
     public BackupSettings Backup { get; set; } = new();
     public List<WebhookEntry> Webhooks { get; set; } = new();
     public bool MaintenanceModeActive { get; set; } = false;

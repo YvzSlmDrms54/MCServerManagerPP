@@ -81,19 +81,19 @@ public partial class BackupWindow : Window
         if (enabled)
         {
             _server.StartAutoBackup(new TimeSpan(hour, minute, 0));
-            MessageBox.Show(string.Format(Lang.Get("backup_applied"), $"{hour:D2}:{minute:D2}"), "MCServerManager++");
+            ThemedMessageBox.Show(string.Format(Lang.Get("backup_applied"), $"{hour:D2}:{minute:D2}"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
         }
         else
         {
             _server.StopAutoBackup();
-            MessageBox.Show(Lang.Get("backup_disabled"), "MCServerManager++");
+            ThemedMessageBox.Show(Lang.Get("backup_disabled"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
         }
     }
 
     private void BtnBackupNow_Click(object sender, RoutedEventArgs e)
     {
         string result = _server.BackupWorld();
-        MessageBox.Show(result, "Yedekleme");
+        ThemedMessageBox.Show(result, "Yedekleme", ThemedMessageBoxButtons.Ok, this);
         RefreshLastBackupText();
         RefreshBackupList();
     }

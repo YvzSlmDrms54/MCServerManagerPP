@@ -1,0 +1,26 @@
+<Window x:Class="MCServerManagerPP.InstallServerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sunucu Türü Seç" Height="360" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Style="{StaticResource ThemedWindow}">
+    <Grid Margin="24">
+        <StackPanel x:Name="ChoicePanel" VerticalAlignment="Center">
+            <TextBlock x:Name="LblChooseTitle" FontFamily="{StaticResource FontMono}" FontWeight="SemiBold" 
+                       FontSize="16" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+
+            <Button x:Name="BtnVanilla" Height="42" Style="{StaticResource BtnGhost}" Margin="0,0,0,10" Click="BtnVanilla_Click"/>
+            <Button x:Name="BtnPaper" Height="42" Style="{StaticResource BtnGhost}" Margin="0,0,0,10" Click="BtnPaper_Click"/>
+            <Button x:Name="BtnFabric" Height="42" Style="{StaticResource BtnGhost}" Margin="0,0,0,10" Click="BtnFabric_Click"/>
+            <Button x:Name="BtnForge" Height="42" Style="{StaticResource BtnGhost}" Click="BtnForge_Click"/>
+        </StackPanel>
+
+        <StackPanel x:Name="InstallingPanel" VerticalAlignment="Center" Visibility="Collapsed">
+            <TextBlock x:Name="LblInstalling" FontFamily="{StaticResource FontMono}" FontSize="14" 
+                       HorizontalAlignment="Center" Foreground="{StaticResource BrushGreenBright}" Margin="0,0,0,16"/>
+            <TextBlock x:Name="LblInstallStatus" FontSize="12.5" TextWrapping="Wrap" TextAlignment="Center"
+                       Foreground="{StaticResource BrushTextDim}"/>
+        </StackPanel>
+    </Grid>
+</Window>

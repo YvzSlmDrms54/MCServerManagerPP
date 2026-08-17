@@ -91,6 +91,8 @@ public partial class MainWindow : Window
         MenuStart.Header = Lang.Get("btn_start");
         MenuStop.Header = Lang.Get("btn_stop");
         MenuRestart.Header = Lang.Get("btn_restart");
+        MenuToggleTheme.Header = Lang.Get("menu_toggle_theme");
+        BtnInstallServer.Content = Lang.Get("btn_install_server");
 
         MenuTools.Header = Lang.Get("menu_tools");
         MenuProperties.Header = Lang.Get("menu_properties");
@@ -117,6 +119,14 @@ public partial class MainWindow : Window
             "fabric_or_forge" => Lang.Get("server_type_modded"),
             _ => Lang.Get("server_type_not_installed")
         };
+
+        bool notInstalled = type == "not_installed";
+        BtnInstallServer.Visibility = notInstalled ? Visibility.Visible : Visibility.Collapsed;
+        BtnStart.Visibility = notInstalled ? Visibility.Collapsed : Visibility.Visible;
+        BtnStop.Visibility = notInstalled ? Visibility.Collapsed : Visibility.Visible;
+        BtnRestart.Visibility = notInstalled ? Visibility.Collapsed : Visibility.Visible;
+        BtnFastBackup.Visibility = notInstalled ? Visibility.Collapsed : Visibility.Visible;
+        
     }
 
     private void InitTrayIcon()
@@ -172,17 +182,44 @@ public partial class MainWindow : Window
         });
     }
 
+    private void BtnInstallServer_Click(object sender, RoutedEventArgs e)
+    {
+        var installWindow = new InstallServerWindow(_server) { Owner = this };
+        bool? result = installWindow.ShowDialog();
+
+        if (result == true)
+        {
+            UpdateServerTypeDisplay();
+        }
+    }
+
+    private void MenuToggleTheme_Click(object sender, RoutedEventArgs e)
+    {
+        string newTheme = _server.Config.Theme == "dark" ? "light" : "dark";
+        _server.Config.Theme = newTheme;
+        _server.SaveConfig();
+
+        ThemedMessageBox.Show(Lang.Get("theme_restart_needed"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
+    
+        string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule!.FileName;
+        System.Diagnostics.Process.Start(exePath);
+
+        _isClosingForReal = true;
+        _trayIcon!.Visible = false;
+        Application.Current.Shutdown();
+    }
+
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
         if (!_server.IsEulaAccepted())
         {
-            var result = MessageBox.Show(
+            bool agreed = ThemedMessageBox.Show(
                 "Do you agree to the Minecraft EULA? (https://www.minecraft.net/en-us/eula)",
                 "Minecraft EULA",
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Question);
+                ThemedMessageBoxButtons.OkCancel,
+                this);
 
-            if (result == MessageBoxResult.OK)
+            if (agreed)
             {
                 _server.AcceptEula();
             }
@@ -190,6 +227,7 @@ public partial class MainWindow : Window
             {
                 return;
             }
+
         }
 
         _server.StartServer();
@@ -233,7 +271,7 @@ public partial class MainWindow : Window
     private void BtnFastBackup_Click(object sender, RoutedEventArgs e)
     {
         string result = _server.BackupWorld();
-        MessageBox.Show(result, "MCServerManager++");
+       ThemedMessageBox.Show(result, "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
     }
 
     private void BtnProperties_Click(object sender, RoutedEventArgs e)
@@ -280,7 +318,7 @@ public partial class MainWindow : Window
 
     private void MenuKeybinds_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show(Lang.Get("keybinds_list"), Lang.Get("menu_keybinds"));
+        ThemedMessageBox.Show(Lang.Get("keybinds_list"), Lang.Get("menu_keybinds"), ThemedMessageBoxButtons.Ok, this);
     }
 
     private void BtnSend_Click(object sender, RoutedEventArgs e)
@@ -398,7 +436,7 @@ public class OwnerDrawRenderer : ToolStripRenderer
     {
         var color = e.Item.Selected ? TextHover : Text;
         using var brush = new System.Drawing.SolidBrush(color);
-        e.Graphics.DrawString(e.Text, e.TextFont, brush, e.TextRectangle);
+        e.Graphics.DrawString(e.Text, e.TextFont!, brush, e.TextRectangle);
     }
 
     protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)

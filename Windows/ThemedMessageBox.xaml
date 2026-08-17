@@ -1,0 +1,26 @@
+<Window x:Class="MCServerManagerPP.ThemedMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MCServerManager++" Height="200" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Style="{StaticResource ThemedWindow}"
+        ShowInTaskbar="False">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="MessageText" Grid.Row="0" TextWrapping="Wrap" FontSize="13.5"
+                   VerticalAlignment="Center" Foreground="{StaticResource BrushText}"/>
+
+        <StackPanel x:Name="ButtonPanel" Grid.Row="1" Orientation="Horizontal" 
+                    HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button x:Name="BtnCancel" Content="İptal" Width="90" Style="{StaticResource BtnGhost}" 
+                    Margin="0,0,8,0" Click="BtnCancel_Click" Visibility="Collapsed"/>
+            <Button x:Name="BtnOk" Content="Tamam" Width="90" Style="{StaticResource BtnPrimary}" 
+                    Click="BtnOk_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

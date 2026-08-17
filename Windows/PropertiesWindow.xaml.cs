@@ -127,7 +127,7 @@ public partial class PropertiesWindow : Window
         _properties["enable-command-block"] = ToggleCommandBlock.IsChecked == true ? "true" : "false";
 
         _server.SaveProperties(_properties);
-        MessageBox.Show(Lang.Get("props_saved"), "MCServerManager++");
+        ThemedMessageBox.Show(Lang.Get("props_saved"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
         Close();
     }
 }

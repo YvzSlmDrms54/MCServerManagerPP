@@ -62,12 +62,12 @@ public partial class ScheduledTasksWindow : Window
         if (_server.Config.RestartScheduleEnabled)
         {
             _server.StartRestartSchedule();
-            MessageBox.Show(Lang.Get("scheduled_applied"), "MCServerManager++");
+            ThemedMessageBox.Show(Lang.Get("scheduled_applied"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
         }
         else
         {
             _server.StopRestartSchedule();
-            MessageBox.Show(Lang.Get("scheduled_disabled"), "MCServerManager++");
+            ThemedMessageBox.Show(Lang.Get("scheduled_disabled"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
         }
     }
 
@@ -83,12 +83,12 @@ public partial class ScheduledTasksWindow : Window
         if (_server.Config.MaintenanceScheduleEnabled)
         {
             _server.StartMaintenanceSchedule();
-            MessageBox.Show(Lang.Get("scheduled_applied"), "MCServerManager++");
+            ThemedMessageBox.Show(Lang.Get("scheduled_applied"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
         }
         else
         {
             _server.StopMaintenanceSchedule();
-            MessageBox.Show(Lang.Get("scheduled_disabled"), "MCServerManager++");
+            ThemedMessageBox.Show(Lang.Get("scheduled_disabled"), "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
         }
     }
 }
