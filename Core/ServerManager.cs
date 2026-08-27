@@ -538,6 +538,25 @@ public class ServerManager
         return result.Message;
     }
 
+    public async Task<string> InstallForgeServer()
+    {
+        var installer = new ServerInstaller(_serverDirectory);
+        installer.OnProgress += msg => OnLogReceived?.Invoke($"[KURULUM] {msg}");
+
+        var result = await installer.InstallForgeAsync();
+
+        if (result.Success)
+        {
+            Config.InstalledJarName = result.JarName;
+            Config.InstalledVersion = result.Version;
+            Config.InstalledServerType = "forge";
+            Config.InstalledLaunchArgs = result.LaunchArgs;
+            SaveConfig();
+        }   
+
+        return result.Message;
+    }
+
     private string DetectModLoader()
     {
         string librariesPath = Path.Combine(_serverDirectory, "libraries");
@@ -564,8 +583,10 @@ public class ServerManager
     {
         if (IsRunning) return;
 
+        bool usesLaunchArgs = !string.IsNullOrEmpty(Config.InstalledLaunchArgs);
         string jarPath = Path.Combine(_serverDirectory, CurrentJarName);
-        if (!File.Exists(jarPath))
+
+        if (!usesLaunchArgs && !File.Exists(jarPath))
         {
             OnLogReceived?.Invoke($"[{Lang.Get("log_error")}] {Lang.Get("log_jar_not_found")}: {jarPath}");
             OnLogReceived?.Invoke($"[{Lang.Get("log_error")}] {Lang.Get("log_put_jar")}");
@@ -573,10 +594,14 @@ public class ServerManager
         }
         _stopRequestedByUser = false;
 
+        string arguments = usesLaunchArgs
+            ? $"{Config.InstalledLaunchArgs} nogui"
+            : $"{_javaArgs} -jar {CurrentJarName} nogui";
+
         var psi = new ProcessStartInfo
         {
             FileName = "java",
-            Arguments = $"{_javaArgs} -jar {CurrentJarName} nogui",
+            Arguments = arguments,
             WorkingDirectory = _serverDirectory,
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
@@ -609,29 +634,29 @@ public class ServerManager
         };
 
         _serverProcess.Exited += (s, e) =>
-{
-        if (!_stopRequestedByUser)
         {
-            string separator = new string('-', 50);
-            string crashLog = $"{separator}\n💥 [{DateTime.Now:HH:mm:ss}] {Lang.Get("log_server_crashed")}\n{separator}";
-            OnLogReceived?.Invoke(crashLog);
-            _ = SendWebhookNotification("crash", Lang.Get("webhook_msg_crash"));
-        }
+            if (!_stopRequestedByUser)
+            {
+                string separator = new string('-', 50);
+                string crashLog = $"{separator}\n💥 [{DateTime.Now:HH:mm:ss}] {Lang.Get("log_server_crashed")}\n{separator}";
+                OnLogReceived?.Invoke(crashLog);
+                _ = SendWebhookNotification("crash", Lang.Get("webhook_msg_crash"));
+            }
 
-        BackupWorld();
-        OnLogReceived?.Invoke($"[{DateTime.Now:HH:mm:ss}] [{Lang.Get("log_backup")}] {Lang.Get("log_backup_on_close")}");
-        _ = SendWebhookNotification("stop", Lang.Get("webhook_msg_stop"));
-        OnServerStopped?.Invoke();
+            BackupWorld();
+            OnLogReceived?.Invoke($"[{DateTime.Now:HH:mm:ss}] [{Lang.Get("log_backup")}] {Lang.Get("log_backup_on_close")}");
+            _ = SendWebhookNotification("stop", Lang.Get("webhook_msg_stop"));
+            OnServerStopped?.Invoke();
 
-        _stopRequestedByUser = false;
-    };
+            _stopRequestedByUser = false;
+        };
 
         _serverProcess.Start();
         _serverProcess.BeginOutputReadLine();
         _serverProcess.BeginErrorReadLine();
 
         _ = SendWebhookNotification("start", Lang.Get("webhook_msg_start"));
-    }
+    }   
 
     public void SendCommand(string command)
     {

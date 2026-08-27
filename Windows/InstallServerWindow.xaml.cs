@@ -49,9 +49,9 @@ public partial class InstallServerWindow : Window
         await RunInstall(() => _server.InstallFabricServer());
     }
 
-    private void BtnForge_Click(object sender, RoutedEventArgs e)
+    private async void BtnForge_Click(object sender, RoutedEventArgs e)
     {
-        ThemedMessageBox.Show("Forge kurulumu yakında eklenecek.", "MCServerManager++", ThemedMessageBoxButtons.Ok, this);
+        await RunInstall(() => _server.InstallForgeServer());
     }
 
     private async System.Threading.Tasks.Task RunInstall(System.Func<System.Threading.Tasks.Task<string>> installAction)

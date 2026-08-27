@@ -9,6 +9,7 @@ public class AppConfig
     public string InstalledJarName { get; set; } = "";
     public string InstalledVersion { get; set; } = "";
     public string InstalledServerType { get; set; } = "";
+    public string InstalledLaunchArgs { get; set; } = "";
     public BackupSettings Backup { get; set; } = new();
     public List<WebhookEntry> Webhooks { get; set; } = new();
     public bool MaintenanceModeActive { get; set; } = false;
